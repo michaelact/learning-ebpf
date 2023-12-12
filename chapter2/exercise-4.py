@@ -3,6 +3,8 @@ from bcc import BPF
 import ctypes as ct
 
 program = r"""
+RAW_TRACEPOINT_PROBE(sys_enter)
+{
 BPF_PROG_ARRAY(syscall, 300);
 
 int hello(struct bpf_raw_tracepoint_args *ctx) {
@@ -36,10 +38,10 @@ int hello_timer(struct bpf_raw_tracepoint_args *ctx) {
 int ignore_opcode(void *ctx) {
     return 0;
 }
+}
 """
 
 b = BPF(text=program)
-b.attach_raw_tracepoint(tp="sys_enter", fn_name="hello")
 
 ignore_fn = b.load_func("ignore_opcode", BPF.RAW_TRACEPOINT)
 exec_fn = b.load_func("hello_exec", BPF.RAW_TRACEPOINT)
