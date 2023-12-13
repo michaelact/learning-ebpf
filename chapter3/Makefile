@@ -1,4 +1,4 @@
-TARGETS = hello hello-func
+TARGETS = exercise-5
 
 all: $(TARGETS)
 .PHONY: all
@@ -14,6 +14,4 @@ $(TARGETS): %: %.bpf.o
 
 clean: 
 	- rm *.bpf.o
-	- rm -f /sys/fs/bpf/hello 
-	- rm -f /sys/fs/bpf/hello-func
-
+	- rm -f /sys/fs/bpf/exercise-5
